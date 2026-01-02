@@ -175,10 +175,10 @@ class QuantileFilter(anomaly.base.AnomalyFilter):
     def classify(self, score):
         return score >= (self.quantile.get() or math.inf)
 
-    def learn_one(self, *args, **learn_kwargs):
-        score = self.score_one(*args)
+    def learn_one(self, x, y=None, *args, **learn_kwargs):
+        score = self.score_one(x, *args)
         if not self.protect_anomaly_detector or not self.classify(score):
-            self.anomaly_detector.learn_one(*args, **learn_kwargs)
+            self.anomaly_detector.learn_one(x, y, *args, **learn_kwargs)
         self.quantile.update(score)
 
     @classmethod

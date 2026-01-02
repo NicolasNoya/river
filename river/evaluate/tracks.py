@@ -110,3 +110,29 @@ class RegressionTrack(Track):
             ],
             metric=metrics.MAE() + metrics.RMSE() + metrics.R2(),
         )
+
+
+class AnomalyDetectionTrack(Track):
+    """This track evaluates a model's performance on anomaly detection tasks.
+    These do not include synthetic datasets.
+
+    Parameters
+    ----------
+    n_samples
+        The number of samples to use for each dataset.
+
+    """
+
+    def __init__(self):
+        super().__init__(
+            "Anomaly detection",
+            datasets=[
+                datasets.CreditCard(),
+                datasets.HTTP(),
+                datasets.SMTP(),
+                datasets.synth.AnomalySine(n_anomalies=100, seed=42),
+                # datasets.WaterFlow(),
+                # datasets.WebTraffic(),
+            ],
+            metric=metrics.ROCAUC(),
+        )

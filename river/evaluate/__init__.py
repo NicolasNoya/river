@@ -15,7 +15,7 @@ the River repository uses these tracks.
 from __future__ import annotations
 
 from .progressive_validation import iter_progressive_val_score, progressive_val_score
-from .tracks import BinaryClassificationTrack, MultiClassClassificationTrack, RegressionTrack, Track
+from .tracks import BinaryClassificationTrack, MultiClassClassificationTrack, RegressionTrack, AnomalyDetectionTrack, Track
 
 __all__ = [
     "iter_progressive_val_score",
@@ -23,5 +23,6 @@ __all__ = [
     "BinaryClassificationTrack",
     "MultiClassClassificationTrack",
     "RegressionTrack",
+    "AnomalyDetectionTrack",
     "Track",
 ]

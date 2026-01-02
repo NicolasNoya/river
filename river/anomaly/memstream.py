@@ -30,7 +30,7 @@ class ReplaceStrategy:
     RANDOM = "RANDOM"  # Random replacement
 
 
-class MemStream(anomaly.base.AnomalyDetector):
+class MemStream(anomaly.base.SupervisedAnomalyDetector):
     """MemStream: Memory-Based Streaming Anomaly Detection
 
     MemStream is an **online anomaly detection framework** designed to process
@@ -195,17 +195,18 @@ class MemStream(anomaly.base.AnomalyDetector):
         then we define the encoder using the collected samples.
         """
         if not self.defined_encoder:
-            if self.count < self.grace_period:
-                self.count += 1
+            if self.sample_count < self.grace_period:
                 if y is not None and y != 1:
+                    x = self.__format_x__(x)
                     self.update_memory(0, np.zeros((1, self.out_dim)), x)
+                    self.sample_count += 1
                 warnings.warn(
                     "Encoder not defined. Call define_encoder first.",
                     RuntimeWarning,
                 )
                 return False
             elif self.sample_count >= self.grace_period:
-                self.define_encoder([(self.mem_data[i], 0) for i in range(self.count)])
+                self.define_encoder([(self.mem_data[i], 0) for i in range(self.sample_count)])
                 return True
         else:
             return True
